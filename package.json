@@ -1,0 +1,17 @@
+{
+  "name": "multiplayer-game",
+  "version": "1.0.0",
+  "description": "first multiplayer game with p5 and sockets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Juan Torres",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "socket.io": "^2.3.0"
+  }
+}
