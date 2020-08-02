@@ -1,4 +1,4 @@
-const ENDPOINT = "http://localhost:8080";
+const ENDPOINT = "/";
 const socket = io.connect(ENDPOINT);
 
 let players = new Map();
