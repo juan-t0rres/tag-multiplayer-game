@@ -1,7 +1,7 @@
 const ENDPOINT = "/";
 const socket = io.connect(ENDPOINT);
 
-let players = new Map();
+let players = {};
 let init = false;
 const SPEED = 5;
 const WIDTH = 1600;
@@ -11,17 +11,23 @@ socket.on("tick", (players) => updatePlayers(players));
 socket.on("disconnect", (id) => deletePlayer(id));
 
 function setup() {
+  frameRate(60);
   createCanvas(WIDTH, HEIGHT);
 }
 
 function draw() {
   background(220);
   updateConnectedPlayer();
-  players.forEach((player) => drawPlayer(player));
+  for (const id of Object.keys(players))
+    drawPlayer(players[id]);
+}
+
+function keyPressed() {
+  console.log("test");
 }
 
 function updateConnectedPlayer() {
-  const player = players.get(socket.id);
+  const player = players[socket.id];
   if (player) {
     // movement
     if (keyIsDown(LEFT_ARROW)) player.x -= SPEED;
@@ -44,13 +50,13 @@ function drawPlayer(player) {
 }
 
 function updatePlayers(serverPlayers) {
-  for (const player of serverPlayers) {
-    if (init && player.id === socket.id) continue;
-    players.set(player.id, player);
+  for (const id of Object.keys(serverPlayers)) {
+    if (init && id === socket.id) continue;
+    players[id] = serverPlayers[id];
   }
   init = true;
 }
 
 function deletePlayer(id) {
-  players.delete(id);
+  delete players[id];
 }

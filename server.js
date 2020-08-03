@@ -13,19 +13,18 @@ const Player = require("./Player");
 
 app.use(morgan("common"));
 
-let players = [];
+let players = {};
 
-setInterval(updateGame, 16);
+setInterval(updateGame, 8);
 
 socket.on("connection", (socket) => {
   console.log("user connected");
-  players.push(new Player(socket.id));
+  players[socket.id] = new Player(socket.id);
   console.log(players);
   socket.on("player update", player => {
     updatePlayer(player);
   });
   socket.on("disconnect", () => {
-    players = players.filter((player) => player.id !== socket.id);
     disconnectPlayer(socket.id);
   });
 });
@@ -33,18 +32,14 @@ socket.on("connection", (socket) => {
 function disconnectPlayer(id) {
   console.log("user disconnected");
   socket.sockets.emit("disconnect", id);
+  delete players[id];
 }
 
 function updatePlayer(connectedPlayer) {
-  if (!connectedPlayer)
+  if (!connectedPlayer || !players.hasOwnProperty(connectedPlayer.id))
     return;
-  for (const player of players) {
-    if (player.id === connectedPlayer.id) {
-      player.x = connectedPlayer.x;
-      player.y = connectedPlayer.y;
-      return; 
-    }
-  }
+  players[connectedPlayer.id].x = connectedPlayer.x;
+  players[connectedPlayer.id].y = connectedPlayer.y;
 }
 
 function updateGame() {
