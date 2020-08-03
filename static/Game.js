@@ -4,12 +4,14 @@ const socket = io.connect(ENDPOINT);
 let players = new Map();
 let init = false;
 const SPEED = 5;
+const WIDTH = 1600;
+const HEIGHT = 900;
 
 socket.on("tick", (players) => updatePlayers(players));
 socket.on("disconnect", (id) => deletePlayer(id));
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(WIDTH, HEIGHT);
 }
 
 function draw() {
@@ -20,19 +22,19 @@ function draw() {
 
 function updateConnectedPlayer() {
   const player = players.get(socket.id);
-  if (keyIsDown(LEFT_ARROW)) {
-    player.x -= SPEED;
+  if (player) {
+    // movement
+    if (keyIsDown(LEFT_ARROW)) player.x -= SPEED;
+    if (keyIsDown(RIGHT_ARROW)) player.x += SPEED;
+    if (keyIsDown(UP_ARROW)) player.y -= SPEED;
+    if (keyIsDown(DOWN_ARROW)) player.y += SPEED;
+    // bounds
+    if (player.x < 0) player.x = 0;
+    if (player.y < 0) player.y = 0;
+    if (player.x > WIDTH) player.x = WIDTH;
+    if (player.y > HEIGHT) player.y = HEIGHT;
+    socket.emit("player update", player);
   }
-  if (keyIsDown(RIGHT_ARROW)) {
-    player.x += SPEED;
-  }
-  if (keyIsDown(UP_ARROW)) {
-    player.y -= SPEED;
-  }
-  if (keyIsDown(DOWN_ARROW)) {
-    player.y += SPEED;
-  }
-  socket.emit("player update", player);
 }
 
 function drawPlayer(player) {

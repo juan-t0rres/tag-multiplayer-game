@@ -7,7 +7,7 @@ const http = require("http").Server(app);
 const io = require("socket.io");
 const socket = io(http);
 require("dotenv").config();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 const Player = require("./Player");
 
