@@ -1,9 +1,11 @@
 class Player {
     constructor(id) {
+      this.name = "";
       this.x = Math.random() * 400 + 1;
       this.y = Math.random() * 400 + 1;
       this.id = id;
-  
+      this.active = false;
+
       this.rgb = {
         r: Math.random() * 255,
         g: Math.random() * 255,

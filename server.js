@@ -38,8 +38,7 @@ function disconnectPlayer(id) {
 function updatePlayer(connectedPlayer) {
   if (!connectedPlayer || !players.hasOwnProperty(connectedPlayer.id))
     return;
-  players[connectedPlayer.id].x = connectedPlayer.x;
-  players[connectedPlayer.id].y = connectedPlayer.y;
+  players[connectedPlayer.id] = connectedPlayer;
 }
 
 function updateGame() {
