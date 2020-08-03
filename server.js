@@ -15,7 +15,7 @@ app.use(morgan("common"));
 
 let players = {};
 
-setInterval(updateGame, 32);
+setInterval(updateGame, 16);
 
 socket.on("connection", (socket) => {
   console.log("user connected");
