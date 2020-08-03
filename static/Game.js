@@ -3,7 +3,7 @@ const socket = io.connect(ENDPOINT);
 
 let players = {};
 let init = false;
-const SPEED = 5;
+const SPEED = 10;
 const WIDTH = 1600;
 const HEIGHT = 900;
 
@@ -11,7 +11,7 @@ socket.on("tick", (players) => updatePlayers(players));
 socket.on("disconnect", (id) => deletePlayer(id));
 
 function setup() {
-  frameRate(60);
+  frameRate(30);
   createCanvas(WIDTH, HEIGHT);
 }
 
